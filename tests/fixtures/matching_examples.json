@@ -1,0 +1,618 @@
+[
+  {
+    "text": "wrote SQL queries",
+    "skill": "SQL"
+  },
+  {
+    "text": "used NoSQL databases",
+    "skill": "NoSQL"
+  },
+  {
+    "text": "built REST endpoints",
+    "skill": "REST APIs"
+  },
+  {
+    "text": "worked with Amazon Web Services cloud infrastructure",
+    "skill": "AWS"
+  },
+  {
+    "text": "automated workflows with the Python programming language",
+    "skill": "Python"
+  },
+  {
+    "text": "developed services in Java",
+    "skill": "Java"
+  },
+  {
+    "text": "built interactive web pages with JavaScript",
+    "skill": "JavaScript"
+  },
+  {
+    "text": "maintained typed front-end code with TypeScript",
+    "skill": "TypeScript"
+  },
+  {
+    "text": "wrote Bash shell scripts for deployments",
+    "skill": "Bash"
+  },
+  {
+    "text": "designed classes and interfaces using object-oriented design",
+    "skill": "Object-Oriented Design"
+  },
+  {
+    "text": "implemented efficient algorithms and data structures",
+    "skill": "Data Structures and Algorithms"
+  },
+  {
+    "text": "created unit and integration tests for software testing",
+    "skill": "Software Testing"
+  },
+  {
+    "text": "designed a scalable distributed system architecture",
+    "skill": "System Design"
+  },
+  {
+    "text": "worked in Agile Development with iterative sprints",
+    "skill": "Agile Development"
+  },
+  {
+    "text": "cleaned missing and invalid records during data cleaning",
+    "skill": "Data Cleaning"
+  },
+  {
+    "text": "built an ETL extract transform load pipeline",
+    "skill": "ETL"
+  },
+  {
+    "text": "designed a star schema for analytics",
+    "skill": "Data Warehousing"
+  },
+  {
+    "text": "managed data quality and ownership policies",
+    "skill": "Data Governance"
+  },
+  {
+    "text": "performed statistical analysis",
+    "skill": "Statistics"
+  },
+  {
+    "text": "modeled uncertainty and probability with random variables",
+    "skill": "Probability"
+  },
+  {
+    "text": "used matrices and vector operations",
+    "skill": "Linear Algebra"
+  },
+  {
+    "text": "trained machine learning predictive models from data",
+    "skill": "Machine Learning"
+  },
+  {
+    "text": "trained neural networks",
+    "skill": "Deep Learning"
+  },
+  {
+    "text": "processed and classified human language with natural language processing",
+    "skill": "Natural Language Processing"
+  },
+  {
+    "text": "detected objects in images using computer vision",
+    "skill": "Computer Vision"
+  },
+  {
+    "text": "created useful variables from raw data through feature engineering",
+    "skill": "Feature Engineering"
+  },
+  {
+    "text": "measured model accuracy and generalization",
+    "skill": "Model Evaluation"
+  },
+  {
+    "text": "planned controlled experiments",
+    "skill": "Experiment Design"
+  },
+  {
+    "text": "presented trends with data visualization charts and dashboards",
+    "skill": "Data Visualization"
+  },
+  {
+    "text": "built dashboards in Tableau",
+    "skill": "Tableau"
+  },
+  {
+    "text": "created reports with Power BI",
+    "skill": "Power BI"
+  },
+  {
+    "text": "analyzed tabular data with pandas",
+    "skill": "Pandas"
+  },
+  {
+    "text": "performed numerical computing with NumPy",
+    "skill": "NumPy"
+  },
+  {
+    "text": "trained classical models using scikit-learn",
+    "skill": "Scikit-learn"
+  },
+  {
+    "text": "built models with PyTorch",
+    "skill": "PyTorch"
+  },
+  {
+    "text": "used interactive Jupyter notebooks",
+    "skill": "Jupyter"
+  },
+  {
+    "text": "managed source code with Git",
+    "skill": "Git"
+  },
+  {
+    "text": "reviewed pull requests on GitHub",
+    "skill": "GitHub"
+  },
+  {
+    "text": "packaged the app in Docker containers",
+    "skill": "Docker"
+  },
+  {
+    "text": "orchestrated containers in Kubernetes",
+    "skill": "Kubernetes"
+  },
+  {
+    "text": "automated CI/CD build and deployment pipelines",
+    "skill": "CI/CD"
+  },
+  {
+    "text": "provisioned infrastructure as code with Terraform",
+    "skill": "Terraform"
+  },
+  {
+    "text": "administered Linux servers",
+    "skill": "Linux"
+  },
+  {
+    "text": "designed resilient systems in Microsoft Azure",
+    "skill": "Microsoft Azure"
+  },
+  {
+    "text": "built services on Google Cloud",
+    "skill": "Google Cloud"
+  },
+  {
+    "text": "designed secure and scalable cloud systems",
+    "skill": "Cloud Architecture"
+  },
+  {
+    "text": "tracked logs metrics and traces for monitoring and observability",
+    "skill": "Monitoring and Observability"
+  },
+  {
+    "text": "secured applications and protected data with security fundamentals",
+    "skill": "Security Fundamentals"
+  },
+  {
+    "text": "built APIs using GraphQL",
+    "skill": "GraphQL"
+  },
+  {
+    "text": "developed a web application with Django",
+    "skill": "Django"
+  },
+  {
+    "text": "served high performance endpoints with FastAPI",
+    "skill": "FastAPI"
+  },
+  {
+    "text": "structured web documents with HTML and CSS",
+    "skill": "HTML/CSS"
+  },
+  {
+    "text": "administered a PostgreSQL database",
+    "skill": "PostgreSQL"
+  },
+  {
+    "text": "used Redis for caching",
+    "skill": "Redis"
+  },
+  {
+    "text": "split the platform into independently deployable microservices",
+    "skill": "Microservices"
+  },
+  {
+    "text": "processed events through message queues and a broker",
+    "skill": "Message Queues"
+  },
+  {
+    "text": "explained technical decisions clearly in technical writing",
+    "skill": "Technical Writing"
+  },
+  {
+    "text": "coordinated project management delivery milestones and schedules",
+    "skill": "Project Management"
+  },
+  {
+    "text": "analyzed clinical trial outcomes with R",
+    "skill": "R"
+  },
+  {
+    "text": "wrote statistical scripts in R",
+    "skill": "R"
+  },
+  {
+    "text": "built .NET services in C sharp",
+    "skill": "C#"
+  },
+  {
+    "text": "implemented application logic with C#",
+    "skill": "C#"
+  },
+  {
+    "text": "designed normalized relational schemas",
+    "skill": "Data Modeling"
+  },
+  {
+    "text": "created entity relationship models for an application",
+    "skill": "Data Modeling"
+  },
+  {
+    "text": "used derivatives to optimize a loss function",
+    "skill": "Calculus"
+  },
+  {
+    "text": "applied gradient calculus in model training",
+    "skill": "Calculus"
+  },
+  {
+    "text": "trained a neural network with TensorFlow",
+    "skill": "TensorFlow"
+  },
+  {
+    "text": "used Keras and TensorFlow for deep learning",
+    "skill": "TensorFlow"
+  },
+  {
+    "text": "configured TCP IP connectivity and routing",
+    "skill": "Networking"
+  },
+  {
+    "text": "troubleshot DNS and network protocols",
+    "skill": "Networking"
+  },
+  {
+    "text": "presented technical findings to a cross-functional team",
+    "skill": "Communication"
+  },
+  {
+    "text": "explained complex ideas clearly to stakeholders",
+    "skill": "Communication"
+  },
+  {
+    "text": "gathered requirements and mapped business processes",
+    "skill": "Business Analysis"
+  },
+  {
+    "text": "analyzed stakeholder needs to define product requirements",
+    "skill": "Business Analysis"
+  },
+  {
+    "text": "decomposed an ambiguous issue into actionable steps",
+    "skill": "Problem Solving"
+  },
+  {
+    "text": "found practical solutions to production problems",
+    "skill": "Problem Solving"
+  },
+  {
+    "text": "wrote SQL joins against relational tables",
+    "skill": "SQL"
+  },
+  {
+    "text": "modeled documents in MongoDB",
+    "skill": "NoSQL"
+  },
+  {
+    "text": "implemented a JVM application in Java",
+    "skill": "Java"
+  },
+  {
+    "text": "added browser behavior with JavaScript",
+    "skill": "JavaScript"
+  },
+  {
+    "text": "automated data workflows with Python",
+    "skill": "Python"
+  },
+  {
+    "text": "Bash",
+    "skill": "Bash"
+  },
+  {
+    "text": "ETL",
+    "skill": "ETL"
+  },
+  {
+    "text": "CI/CD",
+    "skill": "CI/CD"
+  },
+  {
+    "text": "Data Warehousing",
+    "skill": "Data Warehousing"
+  },
+  {
+    "text": "Probability",
+    "skill": "Probability"
+  },
+  {
+    "text": "planned a high availability service with caching and load balancing",
+    "skill": "System Design"
+  },
+  {
+    "text": "designed how backend components communicate at scale",
+    "skill": "System Design"
+  },
+  {
+    "text": "planned multi-region cloud infrastructure with disaster recovery",
+    "skill": "Cloud Architecture"
+  },
+  {
+    "text": "designed secure cloud networking and resilient deployments",
+    "skill": "Cloud Architecture"
+  },
+  {
+    "text": "implemented CRUD endpoints over HTTP",
+    "skill": "REST APIs"
+  },
+  {
+    "text": "defined a typed schema and resolvers for GraphQL",
+    "skill": "GraphQL"
+  },
+  {
+    "text": "built server rendered views with Django",
+    "skill": "Django"
+  },
+  {
+    "text": "created async Python endpoints using FastAPI",
+    "skill": "FastAPI"
+  },
+  {
+    "text": "styled responsive pages with semantic HTML and CSS",
+    "skill": "HTML/CSS"
+  },
+  {
+    "text": "tuned indexes and queries in PostgreSQL",
+    "skill": "PostgreSQL"
+  },
+  {
+    "text": "used Redis as an in-memory cache",
+    "skill": "Redis"
+  },
+  {
+    "text": "decomposed a monolith into independently deployed services",
+    "skill": "Microservices"
+  },
+  {
+    "text": "processed asynchronous jobs through RabbitMQ queues",
+    "skill": "Message Queues"
+  },
+  {
+    "text": "built reproducible images with Docker",
+    "skill": "Docker"
+  },
+  {
+    "text": "deployed workloads to Kubernetes",
+    "skill": "Kubernetes"
+  },
+  {
+    "text": "provisioned cloud resources using Terraform modules",
+    "skill": "Terraform"
+  },
+  {
+    "text": "managed Linux processes and shell permissions",
+    "skill": "Linux"
+  },
+  {
+    "text": "configured S3 and EC2 on Amazon Web Services",
+    "skill": "AWS"
+  },
+  {
+    "text": "deployed workloads using Azure services",
+    "skill": "Microsoft Azure"
+  },
+  {
+    "text": "managed data pipelines on Google Cloud Platform",
+    "skill": "Google Cloud"
+  },
+  {
+    "text": "created alerts from metrics logs and distributed traces",
+    "skill": "Monitoring and Observability"
+  },
+  {
+    "text": "applied least privilege and secure credential handling",
+    "skill": "Security Fundamentals"
+  },
+  {
+    "text": "resolved merge conflicts and managed Git branches",
+    "skill": "Git"
+  },
+  {
+    "text": "reviewed changes through GitHub pull requests",
+    "skill": "GitHub"
+  },
+  {
+    "text": "used encapsulation and interfaces to structure classes",
+    "skill": "Object-Oriented Design"
+  },
+  {
+    "text": "selected hash maps to reduce lookup complexity",
+    "skill": "Data Structures and Algorithms"
+  },
+  {
+    "text": "wrote regression tests and mocked external dependencies",
+    "skill": "Software Testing"
+  },
+  {
+    "text": "planned work in sprint ceremonies and retrospectives",
+    "skill": "Agile Development"
+  },
+  {
+    "text": "deduplicated records and imputed missing values",
+    "skill": "Data Cleaning"
+  },
+  {
+    "text": "defined data ownership access policies and retention rules",
+    "skill": "Data Governance"
+  },
+  {
+    "text": "estimated confidence intervals from sample data",
+    "skill": "Statistics"
+  },
+  {
+    "text": "used matrix multiplication and vector projections",
+    "skill": "Linear Algebra"
+  },
+  {
+    "text": "trained a classifier to predict customer churn",
+    "skill": "Machine Learning"
+  },
+  {
+    "text": "fine tuned a transformer neural network",
+    "skill": "Deep Learning"
+  },
+  {
+    "text": "extracted entities from text with NLP",
+    "skill": "Natural Language Processing"
+  },
+  {
+    "text": "classified objects in images with a convolutional model",
+    "skill": "Computer Vision"
+  },
+  {
+    "text": "created model features from timestamps and categories",
+    "skill": "Feature Engineering"
+  },
+  {
+    "text": "compared precision recall and validation scores",
+    "skill": "Model Evaluation"
+  },
+  {
+    "text": "randomized subjects across control and treatment groups",
+    "skill": "Experiment Design"
+  },
+  {
+    "text": "communicated distributions with clear plots",
+    "skill": "Data Visualization"
+  },
+  {
+    "text": "built an interactive Tableau dashboard",
+    "skill": "Tableau"
+  },
+  {
+    "text": "published a Power BI report with DAX measures",
+    "skill": "Power BI"
+  },
+  {
+    "text": "joined and filtered DataFrames using pandas",
+    "skill": "Pandas"
+  },
+  {
+    "text": "vectorized numerical operations with NumPy arrays",
+    "skill": "NumPy"
+  },
+  {
+    "text": "built a preprocessing and classifier pipeline in scikit-learn",
+    "skill": "Scikit-learn"
+  },
+  {
+    "text": "implemented a training loop with PyTorch tensors",
+    "skill": "PyTorch"
+  },
+  {
+    "text": "documented analysis in an executable Jupyter notebook",
+    "skill": "Jupyter"
+  },
+  {
+    "text": "documented API behavior and setup instructions",
+    "skill": "Technical Writing"
+  },
+  {
+    "text": "tracked scope risks and delivery milestones",
+    "skill": "Project Management"
+  },
+  {
+    "text": "designed a distributed rate limiter for a high traffic service",
+    "skill": "System Design"
+  },
+  {
+    "text": "chose cloud services and network boundaries for a workload",
+    "skill": "Cloud Architecture"
+  },
+  {
+    "text": "queried a PostgreSQL database using joins and aggregations",
+    "skill": "SQL"
+  },
+  {
+    "text": "stored flexible JSON documents in a non-relational database",
+    "skill": "NoSQL"
+  },
+  {
+    "text": "wrote strongly typed backend code for the JVM",
+    "skill": "Java"
+  },
+  {
+    "text": "used async browser APIs to update a web interface",
+    "skill": "JavaScript"
+  },
+  {
+    "text": "wrote a short shell script to automate backups",
+    "skill": "Bash"
+  },
+  {
+    "text": "moved source records through extract transform and load steps",
+    "skill": "ETL"
+  },
+  {
+    "text": "automated build test and release on every commit",
+    "skill": "CI/CD"
+  },
+  {
+    "text": "organized dimensional tables for business intelligence",
+    "skill": "Data Warehousing"
+  },
+  {
+    "text": "calculated the likelihood of an event from a distribution",
+    "skill": "Probability"
+  },
+  {
+    "text": "fit a linear regression in R",
+    "skill": "R"
+  },
+  {
+    "text": "used probability distributions to quantify uncertainty",
+    "skill": "Probability"
+  },
+  {
+    "text": "planned a scalable API with caching and database sharding",
+    "skill": "System Design"
+  },
+  {
+    "text": "designed identity and network controls for cloud workloads",
+    "skill": "Cloud Architecture"
+  },
+  {
+    "text": "managed branches and tagged releases with Git",
+    "skill": "Git"
+  },
+  {
+    "text": "wrote tests to verify edge cases before deployment",
+    "skill": "Software Testing"
+  },
+  {
+    "text": "translated business goals into measurable requirements",
+    "skill": "Business Analysis"
+  },
+  {
+    "text": "created charts to explain monthly performance trends",
+    "skill": "Data Visualization"
+  }
+]

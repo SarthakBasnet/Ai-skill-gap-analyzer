@@ -1,0 +1,56 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f8fc">
+    <title>SkillBridge — Find your next skill to build</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234b5fe2'/%3E%3Cpath d='M18 32h28M36 22l10 10-10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="ambient-shape ambient-shape-one" aria-hidden="true"></div>
+    <div class="ambient-shape ambient-shape-two" aria-hidden="true"></div>
+    <main class="page-shell">
+        <nav class="topbar" aria-label="Main navigation">
+            <a class="brand" href="/" aria-label="SkillBridge home"><span class="brand-mark" aria-hidden="true">↗</span><span>SkillBridge</span></a>
+            <span class="nav-note">Career clarity, one skill at a time.</span>
+        </nav>
+        <header class="hero">
+            <p class="eyebrow">MLOps learning planner</p>
+            <h1>See exactly what's between you and your <em>next role.</em></h1>
+            <p class="hero-copy">Map what you know against the skills employers look for, then get a focused path to close the gap.</p>
+        </header>
+        <section class="card input-card" aria-labelledby="form-title">
+            <div class="section-intro"><div><p class="section-kicker">01 / Set your direction</p><h2 id="form-title">What role are you working toward?</h2></div><span class="step-count">Takes about 2 minutes</span></div>
+            <form id="analysis-form" novalidate>
+                {% csrf_token %}
+                <div class="field-group role-field"><label for="job-title">Target role</label><select id="job-title" name="job_title" required><option value="">Choose a role</option>{% for role in roles %}<option value="{{ role.slug }}">{{ role.title }}</option>{% endfor %}</select><p class="field-hint">We'll compare your skills with this role's typical requirements.</p></div>
+                <div class="skills-header"><div><label>Your current skills</label><p class="field-hint">Add a skill and rate your confidence from 0 to 5.</p></div><span class="level-legend" aria-hidden="true"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></span></div>
+                <div id="skills-list" class="skills-list" aria-live="polite">
+                    <div class="skill-row"><div class="skill-input-wrap"><label class="sr-only" for="skill-1">Skill 1</label><input id="skill-1" type="text" name="skill" placeholder="e.g. Python" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-1">Skill 1 level, 0 to 5</label><input id="level-1" type="number" name="level" min="0" max="5" value="0" inputmode="numeric"><span>/ 5</span></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill 1">×</button></div>
+                    <div class="skill-row"><div class="skill-input-wrap"><label class="sr-only" for="skill-2">Skill 2</label><input id="skill-2" type="text" name="skill" placeholder="e.g. SQL" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-2">Skill 2 level, 0 to 5</label><input id="level-2" type="number" name="level" min="0" max="5" value="0" inputmode="numeric"><span>/ 5</span></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill 2">×</button></div>
+                    <div class="skill-row"><div class="skill-input-wrap"><label class="sr-only" for="skill-3">Skill 3</label><input id="skill-3" type="text" name="skill" placeholder="e.g. Docker (optional)" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-3">Skill 3 level, 0 to 5</label><input id="level-3" type="number" name="level" min="0" max="5" value="0" inputmode="numeric"><span>/ 5</span></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill 3">×</button></div>
+                </div>
+                <p id="form-hint" class="inline-hint" aria-live="polite">Add at least one skill to unlock your analysis.</p>
+                <div class="form-actions"><button type="button" id="add-skill" class="secondary-button"><span aria-hidden="true">+</span> Add another skill</button><button type="submit" id="analyze-button" class="primary-button" disabled><span class="button-label">Analyze my gap</span><span class="button-spinner" aria-hidden="true"></span><span class="button-arrow" aria-hidden="true">→</span></button></div>
+            </form>
+            <div id="error-message" class="message error" role="alert" hidden><span class="message-icon" aria-hidden="true">!</span><span></span></div>
+        </section>
+        <section id="results" class="results" hidden aria-labelledby="results-title">
+            <div class="results-intro"><div><p class="section-kicker">02 / Your roadmap</p><h2 id="results-title">A clearer path starts here.</h2><p id="results-summary" class="results-summary">Here's how your current profile lines up.</p></div><div class="match-card" aria-label="Overall match percentage"><span id="match-percent" class="match-percent">—</span><span class="match-label">overall match</span></div></div>
+            <div class="card chart-card"><div class="card-heading"><div><h3>Skills at a glance</h3><p>Required level compared with your current level.</p></div><span class="chart-key"><span class="key-swatch required"></span>Required <span class="key-swatch current"></span>Your level</span></div><div class="chart-container"><canvas id="skill-chart" aria-label="Bar chart comparing required and user skill levels"></canvas></div><p class="chart-summary" id="chart-summary"></p></div>
+            <div id="unmatched" class="message warning" hidden><span class="message-icon" aria-hidden="true">?</span><span></span></div>
+            <div class="recommendations-heading"><div><p class="section-kicker">03 / Focus next</p><h3>Recommended next steps</h3></div><span id="recommendation-count" class="count-pill"></span></div>
+            <ol id="recommendations" class="recommendations"></ol>
+        </section>
+        <footer><span class="brand-mark small" aria-hidden="true">↗</span> SkillBridge <span class="footer-dot">•</span> Built for deliberate growth</footer>
+    </main>
+    <script src="{% static 'core/app.js' %}"></script>
+</body>
+</html>

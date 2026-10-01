@@ -1,0 +1,49 @@
+# Personal / dev notes
+PROGRESS_SUMMARY.md
+*.phase0-backup
+*.bak
+
+# Databases
+db.sqlite3
+*.sqlite3
+*.sqlite3-journal
+
+# Secrets and environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+
+# Python / tooling
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Django
+staticfiles/
+media/
+local_settings.py
+
+# ML model caches (large, downloaded automatically)
+.cache/
+models_cache/
+models/skill_matcher_finetuned/
+*.bin
+*.safetensors
+huggingface/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Project documents (personal info like student ID)
+*.docx
+*.pdf
