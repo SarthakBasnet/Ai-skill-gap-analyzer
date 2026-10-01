@@ -14,3 +14,11 @@ def test_home_renders_frontend_form():
     assert 'id="analysis-form"' in response.content.decode()
     assert 'id="job-title"' in response.content.decode()
     assert 'src="/static/core/app.js"' in response.content.decode()
+    html = response.content.decode()
+    assert 'name="level"><option value="">Choose level</option>' in html
+    assert 'value="1">Beginner</option>' in html
+    assert 'value="3">Intermediate</option>' in html
+    assert 'value="4">Advanced</option>' in html
+    assert 'value="5">Expert</option>' in html
+    assert 'type="number" name="level"' not in html
+    assert "Leave a level blank to treat that skill as missing (level 0)." in html

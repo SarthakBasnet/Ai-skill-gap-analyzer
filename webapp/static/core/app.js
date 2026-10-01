@@ -20,7 +20,7 @@
     function showError(message) { errorMessage.querySelector("span:last-child").textContent = message; errorMessage.hidden = false; }
     function clearError() { errorMessage.hidden = true; errorMessage.querySelector("span:last-child").textContent = ""; }
     function validRows() {
-        return [...skillsList.querySelectorAll(".skill-row")].filter((row) => { const name = row.querySelector('[name="skill"]').value.trim(); const level = row.querySelector('[name="level"]').value; return name && level !== "" && Number(level) >= 0 && Number(level) <= 5; });
+        return [...skillsList.querySelectorAll(".skill-row")].filter((row) => { const name = row.querySelector('[name="skill"]').value.trim(); const level = row.querySelector('[name="level"]').value; return name && level !== "" && [1, 3, 4, 5].includes(Number(level)); });
     }
     function updateValidation() {
         const hasRole = Boolean(document.getElementById("job-title").value);
@@ -34,7 +34,7 @@
         const index = skillsList.querySelectorAll(".skill-row").length + 1;
         const row = document.createElement("div");
         row.className = "skill-row";
-        row.innerHTML = `<div class="skill-input-wrap"><label class="sr-only" for="skill-${index}">Skill ${index}</label><input id="skill-${index}" type="text" name="skill" placeholder="Add another skill" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-${index}">Skill ${index} level, 0 to 5</label><input id="level-${index}" type="number" name="level" min="0" max="5" value="0" inputmode="numeric"><span>/ 5</span></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill ${index}">×</button>`;
+        row.innerHTML = `<div class="skill-input-wrap"><label class="sr-only" for="skill-${index}">Skill ${index}</label><input id="skill-${index}" type="text" name="skill" placeholder="Add another skill" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-${index}">Skill ${index} level</label><select id="level-${index}" name="level"><option value="">Choose level</option><option value="1">Beginner</option><option value="3">Intermediate</option><option value="4">Advanced</option><option value="5">Expert</option></select></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill ${index}">×</button>`;
         skillsList.appendChild(row); row.querySelector("input").focus(); updateValidation();
     }
     function statusLabel(status) { return status === "met" ? "On track" : status === "partial" ? "Build this" : "Start here"; }
@@ -42,6 +42,7 @@
     addSkillButton.addEventListener("click", addRow);
     document.getElementById("job-title").addEventListener("change", updateValidation);
     skillsList.addEventListener("input", updateValidation);
+    skillsList.addEventListener("change", updateValidation);
     skillsList.addEventListener("click", (event) => { if (event.target.classList.contains("remove-skill")) { event.target.closest(".skill-row").remove(); updateValidation(); } });
 
     function renderRecommendations(items, gaps) {
@@ -66,7 +67,8 @@
         const labels = data.skill_gaps.map((item) => item.skill);
         const currentColors = data.skill_gaps.map((item) => item.status === "met" ? "#21856d" : item.status === "missing" ? "#dc5a57" : "#c58a24");
         if (chart) chart.destroy();
-        chart = new Chart(document.getElementById("skill-chart"), { type: "bar", data: { labels, datasets: [{ label: "Required level", data: data.skill_gaps.map((item) => item.required_level), backgroundColor: "#cbd3e5", borderRadius: 5, barPercentage: .8 }, { label: "Your level", data: data.skill_gaps.map((item) => item.user_level), backgroundColor: currentColors, borderRadius: 5, barPercentage: .8 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.raw}/5` } } }, scales: { x: { grid: { display: false }, ticks: { color: "#66728b", font: { family: "DM Sans" } } }, y: { beginAtZero: true, max: 5, ticks: { stepSize: 1, color: "#66728b" }, grid: { color: "#edf0f5" } } } } });
+        const levelLabel = (level) => ({ 0: "None", 1: "Beginner", 3: "Intermediate", 4: "Advanced", 5: "Expert" }[level] || `Level ${level}`);
+        chart = new Chart(document.getElementById("skill-chart"), { type: "bar", data: { labels, datasets: [{ label: "Required level", data: data.skill_gaps.map((item) => item.required_level), backgroundColor: "#cbd3e5", borderRadius: 5, barPercentage: .8 }, { label: "Your level", data: data.skill_gaps.map((item) => item.user_level), backgroundColor: currentColors, borderRadius: 5, barPercentage: .8 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${levelLabel(context.raw)} (${context.raw})` } } }, scales: { x: { grid: { display: false }, ticks: { color: "#66728b", font: { family: "DM Sans" } } }, y: { beginAtZero: true, max: 5, ticks: { stepSize: 1, color: "#66728b" }, grid: { color: "#edf0f5" } } } } });
         const met = data.skill_gaps.filter((item) => item.status === "met").length;
         document.getElementById("chart-summary").textContent = `${met} of ${data.skill_gaps.length} required skills currently meet the target level. Teal means on-track, amber means partial, and coral means missing.`;
         if (data.unmatched_inputs.length) { unmatched.querySelector("span:last-child").textContent = `We couldn't confidently match: ${data.unmatched_inputs.join(", ")}. Try a more specific skill phrase.`; unmatched.hidden = false; } else unmatched.hidden = true;
@@ -74,6 +76,8 @@
     }
     form.addEventListener("submit", async (event) => {
         event.preventDefault(); clearError(); updateValidation(); if (analyzeButton.disabled) return;
+        // Blank levels are omitted, so the backend treats those skills as missing (level 0).
+        // The selector values already map labels to the API's unchanged integer scale.
         const skills = {}; validRows().forEach((row) => { skills[row.querySelector('[name="skill"]').value.trim()] = Number(row.querySelector('[name="level"]').value); });
         analyzeButton.disabled = true; analyzeButton.classList.add("is-loading"); buttonLabel.textContent = "Analyzing your gap...";
         try {
