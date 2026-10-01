@@ -156,6 +156,12 @@ without a page reload. Results include a Chart.js comparison of required versus
 user levels, the overall match percentage, unmatched inputs, and ranked resource
 links.
 
+Each skill row uses a labelled level selector: Beginner maps to 1, Intermediate
+to 3, Advanced to 4, and Expert to 5. Leaving a level unselected omits that skill
+from the request; omitted skills continue to count as level 0 (missing) in the
+existing scoring logic. The frontend maps the selected option to an integer, so
+the API payload remains `skills: {"skill name": 0-5}`.
+
 The visual system uses Space Grotesk for expressive headings and DM Sans for
 readable body copy. A cobalt brand color anchors the interface, with coral,
 amber, and teal communicating missing, partial, and met skills. The frontend is
