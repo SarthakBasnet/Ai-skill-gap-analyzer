@@ -145,20 +145,20 @@ emphasis and skill status. The responsive layout uses restrained borders and
 varied alignment. Vanilla JavaScript adds an eased match count-up, staggered
 recommendation entrance, animated chart bars, smooth scrolling to results, and
 an understated loading track. CSS and JavaScript honor `prefers-reduced-motion`.
-The frontend remains framework-free, with no npm or build step.
+The frontend remains framework-free and has no npm dependencies. It can be
+served by Django on Vercel or built as a standalone static site for Render.
 
 Chart.js is loaded from a CDN. Start the server with
-`python webapp/manage.py runserver` after loading the knowledge base, then open
-`http://127.0.0.1:8000/`. The form includes Django's `{% csrf_token %}`;
-JavaScript reads the `csrftoken` cookie and sends it as `X-CSRFToken` on the
-same-origin fetch request.
+`python webapp/manage.py runserver`, then open
+`http://127.0.0.1:8000/`. When served by Django, the API base URL defaults to
+the same origin. The Render static build sets a separate API base URL and loads
+job roles from the API.
 
 ## Deploying to Vercel
 
 The root-level `manage.py` lets Vercel detect this Django project. Push the
 repository to GitHub, import it in Vercel, and keep the project root set to the
-repository root. Vercel detects Python dependencies from `requirements.txt` and
-builds the Django app; no `vercel.json` or Node.js build step is needed.
+repository root. Vercel detects Python dependencies from `requirements.txt`.
 
 Add these Environment Variables in Vercel for Production (and Preview if you
 deploy preview branches):
@@ -166,21 +166,40 @@ deploy preview branches):
 - `DJANGO_SECRET_KEY`: a long, random secret.
 - `DJANGO_DEBUG`: `False`.
 - `DJANGO_ALLOWED_HOSTS`: `.vercel.app` plus any custom domain, comma-separated.
+- `CORS_ALLOWED_ORIGINS`: the exact Render frontend origin, such as
+  `https://skillbridge-frontend.onrender.com` (no trailing slash).
 
 The current project uses SQLite. Vercel function filesystems are not a
 persistent shared database, so SQLite is only suitable for a disposable demo.
 For persistent data, configure an external PostgreSQL database and update
 `webapp/webapp/settings.py` to use its connection URL before deploying.
 
-The app also requires the generated files `models/word2vec_scratch.model` and
-`models/skill_embeddings.json`. Generate them with the training notebook and
-make them available to the Vercel build: `models/` is gitignored by default,
-so Git-based deployments will not include them unless you remove that ignore
-rule and commit the artifacts. Without them the matcher cannot initialize.
+The app also requires `models/word2vec_scratch.model` and
+`models/skill_embeddings.json`. These generated artifacts are included in Git
+so the Vercel function can load the matcher.
 
-After adding the model files and configuring a persistent database, deploy from
-the Vercel dashboard. Apply migrations and load fixtures against that database
-once using the Vercel environment variables:
+The analyzer reads role data from JSON fixtures, so its core pages and endpoints
+do not need database migrations. Configure persistent PostgreSQL only if you
+use database-backed Django features such as the admin or user accounts. SQLite
+on Vercel is temporary and is not shared reliably across serverless instances.
+
+## Deploying the frontend to Render
+
+The repository includes `render.yaml` for a Render Static Site. Create a new
+Blueprint in Render from this repository and select the `skillbridge-frontend`
+service. The build script publishes the existing frontend under `frontend/dist`
+and defaults its API URL to `https://ai-skill-gap-analyzer-five.vercel.app`.
+Set `SKILLBRIDGE_API_URL` on the Render service if your Vercel deployment uses a
+different domain. After Render assigns its public URL, set that exact origin as
+Vercel's `CORS_ALLOWED_ORIGINS` Production environment variable and redeploy the
+Vercel backend. For local use, add the local frontend origin explicitly when
+needed.
+
+The Django app still serves the frontend at `/` on Vercel for a single-host
+setup.
+
+If using the Django admin or user accounts with a persistent database, apply
+migrations and load fixtures against that database once:
 
 ```bash
 python manage.py migrate

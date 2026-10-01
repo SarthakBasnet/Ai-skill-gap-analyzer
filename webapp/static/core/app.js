@@ -26,11 +26,7 @@
         window.requestAnimationFrame(tick);
     }
 
-    function csrfToken() {
-        // Django's csrf_token tag sets the cookie; send it in the same-origin header.
-        const cookie = document.cookie.split("; ").find((item) => item.startsWith("csrftoken="));
-        return cookie ? decodeURIComponent(cookie.split("=").slice(1).join("=")) : "";
-    }
+    const apiBase = (window.SKILLBRIDGE_API_URL || "").replace(/\/$/, "");
 
     function showError(message) { errorMessage.querySelector("span:last-child").textContent = message; errorMessage.hidden = false; }
     function clearError() { errorMessage.hidden = true; errorMessage.querySelector("span:last-child").textContent = ""; }
@@ -59,6 +55,20 @@
     skillsList.addEventListener("input", updateValidation);
     skillsList.addEventListener("change", updateValidation);
     skillsList.addEventListener("click", (event) => { if (event.target.classList.contains("remove-skill")) { event.target.closest(".skill-row").remove(); updateValidation(); } });
+
+    fetch(`${apiBase}/api/roles/`)
+        .then((response) => { if (!response.ok) throw new Error("Could not load job roles."); return response.json(); })
+        .then((roles) => {
+            const selector = document.getElementById("job-title");
+            if (selector.options.length > 1) return;
+            roles.forEach((role) => {
+                const option = document.createElement("option");
+                option.value = role.slug;
+                option.textContent = role.title;
+                selector.appendChild(option);
+            });
+        })
+        .catch(() => showError("Could not connect to the analyzer. Check the API URL and deployment CORS settings."));
 
     function renderRecommendations(items, gaps) {
         recommendations.replaceChildren();
@@ -100,7 +110,7 @@
         const skills = {}; validRows().forEach((row) => { skills[row.querySelector('[name="skill"]').value.trim()] = Number(row.querySelector('[name="level"]').value); });
         analyzeButton.disabled = true; analyzeButton.classList.add("is-loading"); buttonLabel.textContent = "Analyzing...";
         try {
-            const response = await fetch("/api/skill-gap/", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken() }, body: JSON.stringify({ job_title: document.getElementById("job-title").value, skills }) });
+            const response = await fetch(`${apiBase}/api/skill-gap/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ job_title: document.getElementById("job-title").value, skills }) });
             const data = await response.json(); if (!response.ok) { const details = Object.values(data).flat().join(" "); throw new Error(details || "The analysis could not be completed."); } renderResults(data);
         } catch (error) { showError(error.message || "The analysis could not be completed."); }
         finally { analyzeButton.classList.remove("is-loading"); buttonLabel.textContent = "Analyze my gap"; updateValidation(); }

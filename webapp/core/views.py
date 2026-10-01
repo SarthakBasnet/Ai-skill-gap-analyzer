@@ -2,9 +2,9 @@
 
 from django.shortcuts import render
 
-from .models import JobRole
+from webapp.api.serializers import available_roles
 
 
 def home(request):
-    """Render the analyzer form with the available roles."""
-    return render(request, "core/home.html", {"roles": JobRole.objects.all()})
+    """Render the analyzer form from the versioned role files."""
+    return render(request, "core/home.html", {"roles": available_roles()})

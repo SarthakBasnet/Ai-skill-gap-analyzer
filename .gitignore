@@ -29,6 +29,7 @@ htmlcov/
 staticfiles/
 media/
 local_settings.py
+frontend/dist/
 
 # ML model caches (large, downloaded automatically)
 .cache/
@@ -49,5 +50,7 @@ Thumbs.db
 *.pdf
 
 # Generated Word2Vec artifacts and source dataset
-models/
+models/*
+!models/skill_embeddings.json
+!models/word2vec_scratch.model
 data/*.csv
