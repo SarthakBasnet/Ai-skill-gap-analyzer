@@ -103,11 +103,10 @@ select:focus, input:focus { border-color: var(--olive); box-shadow: 0 0 0 3px rg
 .key-swatch.current { background: var(--olive); }
 .chart-container { height: 360px; margin: 24px 0 12px; position: relative; }
 .chart-summary { color: var(--ink-muted); font-size: .8rem; margin: 0; }
-.recommendations-heading { align-items: center; margin: 54px 0 20px 4%; }
+.recommendations-heading { align-items: center; margin: 54px 0 20px; }
 .recommendations-heading h3 { font-size: 1.7rem; }
 .recommendations { display: grid; gap: 12px; list-style: none; margin: 0; padding: 0; }
 .recommendation { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--amber); padding: 20px 24px; transition: border-color 180ms ease, transform 180ms ease, background-color 180ms ease; }
-.recommendation:nth-child(even) { margin-left: 4%; }
 .recommendation:hover { border-color: var(--olive); transform: translateY(-2px); }
 .recommendation.entering { animation: card-arrive 420ms cubic-bezier(.2,.7,.25,1) both; }
 @keyframes card-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }

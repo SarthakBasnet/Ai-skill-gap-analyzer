@@ -1,12 +1,21 @@
 import pytest
 
 from analyzer.engine import AnalysisResult, analyze
-from analyzer.matching import SkillMatcher
+from analyzer.matching import MatchResult
 
 
 @pytest.fixture(scope="module")
 def matcher():
-    return SkillMatcher()
+    class MatcherStub:
+        def match_many(self, texts):
+            aliases = {"SQL": "SQL", "wrote SQL queries": "SQL", "Python": "Python"}
+            results = []
+            for text in texts:
+                skill = aliases.get(text)
+                results.append(MatchResult(text, skill, 1.0 if skill else 0.0,
+                                           skill is not None, [(skill, 1.0)] if skill else []))
+            return results
+    return MatcherStub()
 
 
 @pytest.mark.slow

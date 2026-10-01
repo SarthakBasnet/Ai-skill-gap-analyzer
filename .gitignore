@@ -47,3 +47,7 @@ Thumbs.db
 # Project documents (personal info like student ID)
 *.docx
 *.pdf
+
+# Generated Word2Vec artifacts and source dataset
+models/
+data/*.csv
