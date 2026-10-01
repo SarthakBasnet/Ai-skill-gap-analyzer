@@ -9,7 +9,15 @@ WEBAPP_DIR = BASE_DIR / "webapp"
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-insecure-secret-key")
 DEBUG = os.getenv("DJANGO_DEBUG", "True").lower() in {"1", "true", "yes"}
 
-ALLOWED_HOSTS = [host for host in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",") if host]
+ALLOWED_HOSTS = [
+    host.strip()
+    for host in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+    if host.strip()
+]
+# Vercel assigns deployment-specific *.vercel.app hostnames. Keep these
+# available by default so a missing or incomplete host setting does not make
+# Django reject every request with DisallowedHost (HTTP 400).
+ALLOWED_HOSTS.extend([".vercel.app", "localhost", "127.0.0.1"])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
