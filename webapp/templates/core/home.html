@@ -4,12 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f6f8fc">
+    <meta name="theme-color" content="#f7f5ed">
     <title>SkillBridge — Find your next skill to build</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234b5fe2'/%3E%3Cpath d='M18 32h28M36 22l10 10-10 10' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23596b3d'/%3E%3Cpath d='M18 32h28M36 22l10 10-10 10' fill='none' stroke='%23fffdf8' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'core/style.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
@@ -38,7 +38,7 @@
                     <div class="skill-row"><div class="skill-input-wrap"><label class="sr-only" for="skill-3">Skill 3</label><input id="skill-3" type="text" name="skill" placeholder="e.g. Docker (optional)" autocomplete="off"></div><div class="level-input-wrap"><label class="sr-only" for="level-3">Skill 3 level</label><select id="level-3" name="level"><option value="">Choose level</option><option value="1">Beginner</option><option value="3">Intermediate</option><option value="4">Advanced</option><option value="5">Expert</option></select></div><button type="button" class="icon-button remove-skill" aria-label="Remove skill 3">×</button></div>
                 </div>
                 <p id="form-hint" class="inline-hint" aria-live="polite">Add at least one skill to unlock your analysis.</p>
-                <div class="form-actions"><button type="button" id="add-skill" class="secondary-button"><span aria-hidden="true">+</span> Add another skill</button><button type="submit" id="analyze-button" class="primary-button" disabled><span class="button-label">Analyze my gap</span><span class="button-spinner" aria-hidden="true"></span><span class="button-arrow" aria-hidden="true">→</span></button></div>
+                <div class="form-actions"><button type="button" id="add-skill" class="secondary-button"><span aria-hidden="true">+</span> Add another skill</button><button type="submit" id="analyze-button" class="primary-button" disabled><span class="loading-track" aria-hidden="true"><span></span></span><span class="button-label">Analyze my gap</span><span class="button-spinner" aria-hidden="true"></span><span class="button-arrow" aria-hidden="true">→</span></button></div>
             </form>
             <div id="error-message" class="message error" role="alert" hidden><span class="message-icon" aria-hidden="true">!</span><span></span></div>
         </section>
