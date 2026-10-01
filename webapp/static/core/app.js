@@ -9,7 +9,22 @@
     const results = document.getElementById("results");
     const unmatched = document.getElementById("unmatched");
     const recommendations = document.getElementById("recommendations");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let chart;
+
+    function animateMatchPercent(finalValue) {
+        const output = document.getElementById("match-percent");
+        if (reduceMotion) { output.textContent = `${finalValue}%`; return; }
+        const duration = 1000;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            output.textContent = `${Math.round(finalValue * eased)}%`;
+            if (progress < 1) window.requestAnimationFrame(tick);
+        }
+        window.requestAnimationFrame(tick);
+    }
 
     function csrfToken() {
         // Django's csrf_token tag sets the cookie; send it in the same-origin header.
@@ -53,6 +68,10 @@
         items.forEach((item) => {
             const gap = gapBySkill[item.skill] || { status: "partial" };
             const li = document.createElement("li"); li.className = `recommendation ${gap.status}`;
+            if (!reduceMotion) {
+                const stagger = Math.min(80, 400 / Math.max(items.length, 1));
+                li.classList.add("entering"); li.style.animationDelay = `${Math.min((recommendations.children.length) * stagger, 400)}ms`;
+            }
             const header = document.createElement("div"); header.className = "recommendation-header";
             header.innerHTML = `<div><strong>${item.skill}</strong> <span class="priority">Priority ${item.priority_rank}</span></div><span class="status-badge ${gap.status}">${statusLabel(gap.status)}</span>`;
             li.appendChild(header);
@@ -62,15 +81,15 @@
         });
     }
     function renderResults(data) {
-        document.getElementById("match-percent").textContent = `${data.overall_match_percent}%`;
+        animateMatchPercent(data.overall_match_percent);
         document.getElementById("results-summary").textContent = `${data.role_title} — a snapshot of where you are and what to build next.`;
         const labels = data.skill_gaps.map((item) => item.skill);
-        const currentColors = data.skill_gaps.map((item) => item.status === "met" ? "#21856d" : item.status === "missing" ? "#dc5a57" : "#c58a24");
+        const currentColors = data.skill_gaps.map((item) => item.status === "met" ? "#52663a" : item.status === "missing" ? "#a34f3e" : "#87651f");
         if (chart) chart.destroy();
         const levelLabel = (level) => ({ 0: "None", 1: "Beginner", 3: "Intermediate", 4: "Advanced", 5: "Expert" }[level] || `Level ${level}`);
-        chart = new Chart(document.getElementById("skill-chart"), { type: "bar", data: { labels, datasets: [{ label: "Required level", data: data.skill_gaps.map((item) => item.required_level), backgroundColor: "#cbd3e5", borderRadius: 5, barPercentage: .8 }, { label: "Your level", data: data.skill_gaps.map((item) => item.user_level), backgroundColor: currentColors, borderRadius: 5, barPercentage: .8 }] }, options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${levelLabel(context.raw)} (${context.raw})` } } }, scales: { x: { grid: { display: false }, ticks: { color: "#66728b", font: { family: "DM Sans" } } }, y: { beginAtZero: true, max: 5, ticks: { stepSize: 1, color: "#66728b" }, grid: { color: "#edf0f5" } } } } });
+        chart = new Chart(document.getElementById("skill-chart"), { type: "bar", data: { labels, datasets: [{ label: "Required level", data: data.skill_gaps.map((item) => item.required_level), backgroundColor: "#c8c8b7", borderRadius: 3, barPercentage: .8 }, { label: "Your level", data: data.skill_gaps.map((item) => item.user_level), backgroundColor: currentColors, borderRadius: 3, barPercentage: .8 }] }, options: { animation: { duration: reduceMotion ? 0 : 850, easing: "easeOutQuart" }, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${levelLabel(context.raw)} (${context.raw})` } } }, scales: { x: { grid: { display: false }, ticks: { color: "#5e5b50", font: { family: "Karla" } } }, y: { beginAtZero: true, max: 5, ticks: { stepSize: 1, color: "#5e5b50" }, grid: { color: "#e6e2d6" } } } } });
         const met = data.skill_gaps.filter((item) => item.status === "met").length;
-        document.getElementById("chart-summary").textContent = `${met} of ${data.skill_gaps.length} required skills currently meet the target level. Teal means on-track, amber means partial, and coral means missing.`;
+        document.getElementById("chart-summary").textContent = `${met} of ${data.skill_gaps.length} required skills currently meet the target level. Olive means on-track, amber means partial, and rust means missing.`;
         if (data.unmatched_inputs.length) { unmatched.querySelector("span:last-child").textContent = `We couldn't confidently match: ${data.unmatched_inputs.join(", ")}. Try a more specific skill phrase.`; unmatched.hidden = false; } else unmatched.hidden = true;
         renderRecommendations(data.recommendations, data.skill_gaps); results.hidden = false; results.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -79,7 +98,7 @@
         // Blank levels are omitted, so the backend treats those skills as missing (level 0).
         // The selector values already map labels to the API's unchanged integer scale.
         const skills = {}; validRows().forEach((row) => { skills[row.querySelector('[name="skill"]').value.trim()] = Number(row.querySelector('[name="level"]').value); });
-        analyzeButton.disabled = true; analyzeButton.classList.add("is-loading"); buttonLabel.textContent = "Analyzing your gap...";
+        analyzeButton.disabled = true; analyzeButton.classList.add("is-loading"); buttonLabel.textContent = "Analyzing...";
         try {
             const response = await fetch("/api/skill-gap/", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken() }, body: JSON.stringify({ job_title: document.getElementById("job-title").value, skills }) });
             const data = await response.json(); if (!response.ok) { const details = Object.values(data).flat().join(" "); throw new Error(details || "The analysis could not be completed."); } renderResults(data);
