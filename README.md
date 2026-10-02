@@ -166,22 +166,21 @@ deploy preview branches):
 - `DJANGO_SECRET_KEY`: a long, random secret.
 - `DJANGO_DEBUG`: `False`.
 - `DJANGO_ALLOWED_HOSTS`: `.vercel.app` plus any custom domain, comma-separated.
-- `CORS_ALLOWED_ORIGINS`: the exact Render frontend origin, such as
-  `https://skillbridge-frontend.onrender.com` (no trailing slash).
+- `DATABASE_URL`: a persistent PostgreSQL connection URL for signup, login,
+  sessions, and other database-backed features.
 
-The current project uses SQLite. Vercel function filesystems are not a
-persistent shared database, so SQLite is only suitable for a disposable demo.
-For persistent data, configure an external PostgreSQL database and update
-`webapp/webapp/settings.py` to use its connection URL before deploying.
+Without `DATABASE_URL`, local development uses SQLite. Vercel function
+filesystems are temporary, so signup and login require a persistent PostgreSQL
+database configured through `DATABASE_URL`.
 
 The app also requires `models/word2vec_scratch.model` and
 `models/skill_embeddings.json`. These generated artifacts are included in Git
 so the Vercel function can load the matcher.
 
 The analyzer reads role data from JSON fixtures, so its core pages and endpoints
-do not need database migrations. Configure persistent PostgreSQL only if you
-use database-backed Django features such as the admin or user accounts. SQLite
-on Vercel is temporary and is not shared reliably across serverless instances.
+do not need database migrations. Signup, login, sessions, and the admin do need
+a persistent PostgreSQL database; SQLite on Vercel is temporary and is not
+shared reliably across serverless instances.
 
 ## Deploying the frontend to Render
 
@@ -192,13 +191,17 @@ login session, CSRF cookie, and analyzer API on the same origin. Set
 `SKILLBRIDGE_API_URL` to your Django app's public origin if it differs from the
 default. The Django app serves the actual website at `/`.
 
-If using the Django admin or user accounts with a persistent database, apply
-migrations and load fixtures against that database once:
+After configuring `DATABASE_URL`, apply migrations against the production
+database before using signup or login:
 
-```bash
+```powershell
+$env:DATABASE_URL = "<your PostgreSQL connection URL>"
 python manage.py migrate
-python manage.py load_knowledge_base
 ```
+
+Keep the connection URL private and set the same value in Vercel's Production
+environment variables. The analyzer's JSON role fixtures do not need to be
+loaded into the database.
 
 You can also inspect Vercel's current [Django deployment guide](https://vercel.com/templates/backend/django-hello-world).
 
