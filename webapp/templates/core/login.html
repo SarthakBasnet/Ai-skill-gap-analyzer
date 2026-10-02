@@ -1,0 +1,15 @@
+{% extends "core/auth.html" %}
+{% block title %}Log in{% endblock %}
+{% block heading %}Welcome back.{% endblock %}
+{% block intro %}Log in to continue building your path to the role you want.{% endblock %}
+{% block form %}
+<form method="post" class="auth-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="auth-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="auth-field"><label for="id_username">Username</label><input id="id_username" name="username" type="text" autocomplete="username" required autofocus value="{{ form.username.value|default:'' }}">{% for error in form.username.errors %}<p class="auth-field-error">{{ error }}</p>{% endfor %}</div>
+    <div class="auth-field"><label for="id_password">Password</label><div class="password-input-wrap"><input id="id_password" name="password" type="password" autocomplete="current-password" required><button class="password-toggle" type="button" data-password-toggle="id_password" aria-controls="id_password" aria-pressed="false">Show</button></div>{% for error in form.password.errors %}<p class="auth-field-error">{{ error }}</p>{% endfor %}</div>
+    <input type="hidden" name="next" value="{{ next|default:'/analyzer/' }}">
+    <button class="primary-button auth-submit" type="submit">Log in <span aria-hidden="true">→</span></button>
+</form>
+{% endblock %}
+{% block switch %}New to SkillBridge? <a href="{% url 'signup' %}">Create an account</a>{% endblock %}

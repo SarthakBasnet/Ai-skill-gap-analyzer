@@ -185,18 +185,12 @@ on Vercel is temporary and is not shared reliably across serverless instances.
 
 ## Deploying the frontend to Render
 
-The repository includes `render.yaml` for a Render Static Site. Create a new
-Blueprint in Render from this repository and select the `skillbridge-frontend`
-service. The build script publishes the existing frontend under `frontend/dist`
-and defaults its API URL to `https://ai-skill-gap-analyzer-five.vercel.app`.
-Set `SKILLBRIDGE_API_URL` on the Render service if your Vercel deployment uses a
-different domain. After Render assigns its public URL, set that exact origin as
-Vercel's `CORS_ALLOWED_ORIGINS` Production environment variable and redeploy the
-Vercel backend. For local use, add the local frontend origin explicitly when
-needed.
-
-The Django app still serves the frontend at `/` on Vercel for a single-host
-setup.
+The optional Render Static Site redirects visitors to the Django app configured
+by `SKILLBRIDGE_API_URL` (default:
+`https://ai-skill-gap-analyzer-five.vercel.app`). This keeps the landing page,
+login session, CSRF cookie, and analyzer API on the same origin. Set
+`SKILLBRIDGE_API_URL` to your Django app's public origin if it differs from the
+default. The Django app serves the actual website at `/`.
 
 If using the Django admin or user accounts with a persistent database, apply
 migrations and load fixtures against that database once:

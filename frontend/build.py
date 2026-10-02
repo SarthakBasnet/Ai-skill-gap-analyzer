@@ -1,16 +1,15 @@
-"""Build the existing Django template into a standalone Render static site."""
+"""Build the static-site handoff to the same-origin Django application."""
 
 import json
 import os
-import re
 import shutil
+from html import escape
 from pathlib import Path
+from urllib.parse import urlsplit
 
 
 FRONTEND_DIR = Path(__file__).resolve().parent
-REPOSITORY_DIR = FRONTEND_DIR.parent
 OUTPUT_DIR = FRONTEND_DIR / "dist"
-TEMPLATE = REPOSITORY_DIR / "webapp" / "templates" / "core" / "home.html"
 
 
 def main() -> None:
@@ -18,29 +17,41 @@ def main() -> None:
         shutil.rmtree(OUTPUT_DIR)
     OUTPUT_DIR.mkdir(parents=True)
 
-    html = TEMPLATE.read_text(encoding="utf-8")
-    html = html.replace("{% load static %}", "")
-    html = html.replace("{% static 'core/style.css' %}", "/style.css")
-    html = html.replace("{% static 'core/app.js' %}", "/app.js")
-    html = html.replace("{% csrf_token %}", "")
-    html = re.sub(r"{% for role in roles %}.*?{% endfor %}", "", html, flags=re.DOTALL)
-    html = html.replace(
-        "    <script src=\"/app.js\"></script>",
-        "    <script src=\"/config.js\"></script>\n    <script src=\"/app.js\"></script>",
-    )
-
-    (OUTPUT_DIR / "index.html").write_text(html, encoding="utf-8")
-    shutil.copy2(REPOSITORY_DIR / "webapp" / "static" / "core" / "style.css", OUTPUT_DIR / "style.css")
-    shutil.copy2(REPOSITORY_DIR / "webapp" / "static" / "core" / "app.js", OUTPUT_DIR / "app.js")
-
-    api_url = os.getenv(
-        "SKILLBRIDGE_API_URL",
-        "https://ai-skill-gap-analyzer-five.vercel.app",
-    ).strip().rstrip("/")
-    (OUTPUT_DIR / "config.js").write_text(
-        f"window.SKILLBRIDGE_API_URL = {json.dumps(api_url)};\n",
-        encoding="utf-8",
-    )
+    default_app_url = "https://ai-skill-gap-analyzer-five.vercel.app"
+    app_url = os.getenv("SKILLBRIDGE_API_URL", default_app_url).strip().rstrip("/") or default_app_url
+    parsed_url = urlsplit(app_url)
+    if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
+        raise ValueError("SKILLBRIDGE_API_URL must be an absolute HTTP or HTTPS app URL.")
+    safe_url = escape(app_url, quote=True)
+    script_url = json.dumps(app_url)
+    redirect_page = f'''<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta http-equiv="refresh" content="0;url={safe_url}/">
+    <title>Opening SkillBridge…</title>
+    <style>
+        :root {{ color-scheme: light; font-family: "Trebuchet MS", sans-serif; color: #2b2a25; background: #f7f5ed; }}
+        body {{ align-items: center; display: flex; justify-content: center; margin: 0; min-height: 100vh; padding: 24px; }}
+        main {{ background: #fffdf8; border-top: 3px solid #596b3d; max-width: 420px; padding: 36px; text-align: center; }}
+        h1 {{ font-family: Georgia, serif; font-size: 2rem; }}
+        p {{ color: #5e5b50; line-height: 1.6; }}
+        a {{ background: #596b3d; color: #fffdf8; display: inline-block; font-weight: 700; margin-top: 12px; padding: 13px 18px; text-decoration: none; }}
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Opening SkillBridge</h1>
+        <p>Taking you to the secure SkillBridge app.</p>
+        <a href="{safe_url}/">Continue to SkillBridge</a>
+    </main>
+    <script>window.location.replace({script_url} + "/");</script>
+</body>
+</html>
+'''
+    (OUTPUT_DIR / "index.html").write_text(redirect_page, encoding="utf-8")
 
 
 if __name__ == "__main__":

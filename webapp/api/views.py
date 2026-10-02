@@ -1,7 +1,7 @@
 """HTTP views for skill-gap analysis and role discovery."""
 
 from analyzer.engine import analyze
-from rest_framework import status
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -43,6 +43,8 @@ def _serialize_result(result):
 
 
 class SkillGapView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self, request):
         request_serializer = SkillGapRequestSerializer(data=request.data)
         if not request_serializer.is_valid():
@@ -64,5 +66,7 @@ class SkillGapView(APIView):
 
 
 class RolesView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request):
         return Response(available_roles(), status=status.HTTP_200_OK)

@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5ed">
+    <title>{% block title %}Your account{% endblock %} | SkillBridge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body class="auth-page">
+    <main class="auth-shell">
+        <a class="brand" href="{% url 'home' %}"><span class="brand-mark" aria-hidden="true">↗</span><span>SkillBridge</span></a>
+        <section class="card auth-card" aria-labelledby="auth-title">
+            <p class="eyebrow">Your next step starts here</p>
+            <h1 id="auth-title">{% block heading %}{% endblock %}</h1>
+            <p class="auth-copy">{% block intro %}{% endblock %}</p>
+            {% block form %}{% endblock %}
+            <p class="auth-switch">{% block switch %}{% endblock %}</p>
+        </section>
+        <p class="auth-back"><a href="{% url 'home' %}">← Back to SkillBridge home</a></p>
+    </main>
+    <script src="{% static 'core/auth.js' %}" defer></script>
+</body>
+</html>

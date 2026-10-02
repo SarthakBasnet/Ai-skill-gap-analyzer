@@ -1,0 +1,81 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f5ed">
+    <meta name="description" content="Find your skill gaps and build a clear learning plan for your next role with SkillBridge.">
+    <title>SkillBridge — Build your next chapter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+<body class="landing-page">
+    <header class="landing-header">
+        <nav class="landing-nav" aria-label="Main navigation">
+            <a class="brand" href="{% url 'home' %}"><span class="brand-mark" aria-hidden="true">↗</span><span>SkillBridge</span></a>
+            <div class="landing-nav-actions">
+                {% if user.is_authenticated %}
+                    <span class="account-greeting">Hi, {{ user.username }}</span>
+                    <a class="landing-login" href="{% url 'analyzer' %}">Open analyzer <span aria-hidden="true">→</span></a>
+                    <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="landing-login" type="submit">Log out</button></form>
+                {% else %}
+                    <a class="landing-login" href="{% url 'login' %}">Log in</a>
+                    <a class="landing-signup" href="{% url 'signup' %}">Create free account <span aria-hidden="true">↗</span></a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+    <main>
+        <section class="landing-hero">
+            <div class="landing-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> A clearer way to grow your career</p>
+                <h1>Your next role is closer than <em>you think.</em></h1>
+                <p class="landing-lede">Turn your experience into a practical learning plan. See where you stand, find the skills to build, and take your next step with confidence.</p>
+                <div class="landing-cta">
+                    {% if user.is_authenticated %}
+                        <a class="landing-signup landing-signup-large" href="{% url 'analyzer' %}">Start your skill analysis <span aria-hidden="true">→</span></a>
+                    {% else %}
+                        <a class="landing-signup landing-signup-large" href="{% url 'signup' %}">Get started for free <span aria-hidden="true">→</span></a>
+                        <a class="landing-secondary" href="{% url 'login' %}?next=/analyzer/">I already have an account</a>
+                    {% endif %}
+                </div>
+                <p class="landing-proof">Built for curious people making their next move.</p>
+            </div>
+            <div class="landing-art" aria-label="Illustration of a skill gap analysis">
+                <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+                <div class="art-note note-top"><span class="note-spark">✳</span> Your growth, made visible</div>
+                <div class="preview-card">
+                    <div class="preview-top"><span class="preview-kicker">ROLE READINESS</span><span class="preview-menu">···</span></div>
+                    <p class="preview-role">Data scientist</p>
+                    <div class="preview-score-row"><div class="preview-score">72<span>%</span></div><div class="preview-score-copy">A strong foundation.<br><strong>3 skills to focus on.</strong></div></div>
+                    <div class="preview-divider"></div>
+                    <div class="preview-skill"><span>Python</span><span class="skill-track"><i style="width: 91%"></i></span><b>On track</b></div>
+                    <div class="preview-skill"><span>Statistics</span><span class="skill-track"><i style="width: 58%"></i></span><b class="skill-partial">In progress</b></div>
+                    <div class="preview-skill"><span>Machine learning</span><span class="skill-track"><i style="width: 34%"></i></span><b class="skill-build">Build next</b></div>
+                    <div class="preview-next"><span class="preview-next-icon">↗</span><span><strong>Your next focus</strong><small>Build a machine learning project</small></span><span class="preview-arrow">→</span></div>
+                </div>
+                <div class="art-note note-bottom"><span>✦</span> One focused step at a time</div>
+                <span class="art-leaf leaf-one" aria-hidden="true">✳</span><span class="art-leaf leaf-two" aria-hidden="true">✳</span>
+            </div>
+        </section>
+
+        <section class="landing-how" aria-labelledby="how-title">
+            <div class="landing-section-heading"><p class="section-kicker">A simple way forward</p><h2 id="how-title">From “what now?” to a plan.</h2><p>Make your next move with a little more clarity and a lot less guesswork.</p></div>
+            <div class="landing-steps">
+                <article class="landing-step"><span class="step-number">01</span><div class="step-icon">◎</div><h3>Choose your direction</h3><p>Pick the role you want to grow into from a set of common career paths.</p></article>
+                <article class="landing-step"><span class="step-number">02</span><div class="step-icon">✳</div><h3>Map what you know</h3><p>Add your current skills and choose the level that feels right for you.</p></article>
+                <article class="landing-step"><span class="step-number">03</span><div class="step-icon">↗</div><h3>Focus on what matters</h3><p>Get a clear skills comparison and useful next steps to keep moving.</p></article>
+            </div>
+        </section>
+
+        <section class="landing-bottom-cta">
+            <div><p class="section-kicker">Your next chapter starts with one step</p><h2>Ready to see your path?</h2></div>
+            {% if user.is_authenticated %}<a class="landing-signup" href="{% url 'analyzer' %}">Open the analyzer <span aria-hidden="true">→</span></a>{% else %}<a class="landing-signup" href="{% url 'signup' %}">Create your free account <span aria-hidden="true">→</span></a>{% endif %}
+        </section>
+    </main>
+    <footer class="landing-footer"><a class="brand" href="{% url 'home' %}"><span class="brand-mark small" aria-hidden="true">↗</span><span>SkillBridge</span></a><span>Career clarity, one skill at a time.</span></footer>
+</body>
+</html>

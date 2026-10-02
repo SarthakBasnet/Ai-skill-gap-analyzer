@@ -110,7 +110,8 @@
         const skills = {}; validRows().forEach((row) => { skills[row.querySelector('[name="skill"]').value.trim()] = Number(row.querySelector('[name="level"]').value); });
         analyzeButton.disabled = true; analyzeButton.classList.add("is-loading"); buttonLabel.textContent = "Analyzing...";
         try {
-            const response = await fetch(`${apiBase}/api/skill-gap/`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ job_title: document.getElementById("job-title").value, skills }) });
+            const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]').value;
+            const response = await fetch(`${apiBase}/api/skill-gap/`, { method: "POST", headers: { "Content-Type": "application/json", "X-CSRFToken": csrfToken }, body: JSON.stringify({ job_title: document.getElementById("job-title").value, skills }) });
             const data = await response.json(); if (!response.ok) { const details = Object.values(data).flat().join(" "); throw new Error(details || "The analysis could not be completed."); } renderResults(data);
         } catch (error) { showError(error.message || "The analysis could not be completed."); }
         finally { analyzeButton.classList.remove("is-loading"); buttonLabel.textContent = "Analyze my gap"; updateValidation(); }

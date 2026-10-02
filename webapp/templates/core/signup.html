@@ -1,0 +1,15 @@
+{% extends "core/auth.html" %}
+{% block title %}Sign up{% endblock %}
+{% block heading %}Make room to grow.{% endblock %}
+{% block intro %}Create an account and start planning your next career move.{% endblock %}
+{% block form %}
+<form method="post" class="auth-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="auth-errors" role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="auth-field"><label for="id_username">Username</label><input id="id_username" name="username" type="text" autocomplete="username" required autofocus value="{{ form.username.value|default:'' }}" aria-describedby="username-help">{% if form.username.errors %}<div class="auth-field-error" role="alert">{{ form.username.errors }}</div>{% endif %}<p id="username-help" class="auth-help">Use 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p></div>
+    <div class="auth-field"><label for="id_password1">Password</label><div class="password-input-wrap"><input id="id_password1" name="password1" type="password" autocomplete="new-password" required aria-describedby="password-help password-strength-label"><button class="password-toggle" type="button" data-password-toggle="id_password1" aria-controls="id_password1" aria-pressed="false">Show</button></div>{% if form.password1.errors %}<div class="auth-field-error" role="alert">{{ form.password1.errors }}</div>{% endif %}<div id="password-help" class="auth-help">At least 8 characters. Avoid common passwords and passwords made only of numbers.</div><div class="password-strength" data-password-strength><div class="strength-label-row"><span>Password strength</span><span id="password-strength-label" class="strength-label" aria-live="polite">Enter a password</span></div><div class="strength-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0" aria-valuetext="No password entered"><span class="strength-meter-fill"></span></div></div></div>
+    <div class="auth-field"><label for="id_password2">Confirm password</label><div class="password-input-wrap"><input id="id_password2" name="password2" type="password" autocomplete="new-password" required><button class="password-toggle" type="button" data-password-toggle="id_password2" aria-controls="id_password2" aria-pressed="false">Show</button></div>{% if form.password2.errors %}<div class="auth-field-error" role="alert">{{ form.password2.errors }}</div>{% endif %}</div>
+    <button class="primary-button auth-submit" type="submit">Create account <span aria-hidden="true">→</span></button>
+</form>
+{% endblock %}
+{% block switch %}Already have an account? <a href="{% url 'login' %}">Log in</a>{% endblock %}
